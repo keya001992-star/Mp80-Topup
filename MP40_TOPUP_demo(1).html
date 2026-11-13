@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MP40 TOPUP</title>
+<style>
+:root{--bg:#090b12;--panel:#151a27;--gold:#ffd166;--muted:#aab2c5;--red:#ff4d6d}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#252039 0,#090b12 48%);color:#fff;font-family:Arial,sans-serif}
+header{padding:25px 18px 18px;text-align:center;border-bottom:1px solid #ffffff18}
+.logo{display:inline-block;border:2px solid var(--gold);color:var(--gold);padding:8px 15px;border-radius:12px;font-weight:900;letter-spacing:2px}
+h1{margin:14px 0 5px;font-size:30px}h1 span{color:var(--gold)}.sub{color:var(--muted);font-size:13px}
+main{max-width:520px;margin:20px auto;padding:0 14px 35px}
+.card{background:var(--panel);border:1px solid #ffffff18;border-radius:17px;padding:18px;margin:14px 0;box-shadow:0 12px 30px #0005}
+h2{font-size:18px;margin:0 0 14px}.packages{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pkg{background:#0d1220;border:1px solid #343b50;color:#fff;border-radius:12px;padding:13px 8px;text-align:center;cursor:pointer}
+.pkg strong{display:block;color:var(--gold);font-size:17px;margin-bottom:5px}.pkg small{color:var(--muted)}
+.pkg.active{border:2px solid var(--gold);background:#282238}
+label{display:block;font-size:13px;color:var(--muted);margin:13px 0 6px}
+input,select{width:100%;padding:13px;border-radius:10px;border:1px solid #394156;background:#0b101b;color:#fff;font-size:15px}
+button{width:100%;border:0;border-radius:11px;padding:14px;background:linear-gradient(90deg,#ffb703,#ffd166);color:#17120a;font-weight:900;font-size:16px;margin-top:15px;cursor:pointer}
+.note{font-size:12px;line-height:1.6;color:var(--muted)}
+#result{display:none;white-space:pre-line;line-height:1.7;color:#fff}
+footer{text-align:center;color:#737d91;font-size:12px;padding:10px 20px 25px}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">MP40</div>
+  <h1><span>MP40</span> TOPUP</h1>
+  <div class="sub">FREE FIRE DIAMOND TOPUP • DEMO WEBSITE</div>
+</header>
+<main>
+  <section class="card">
+    <h2>💎 Diamond Package বেছে নাও</h2>
+    <div class="packages" id="packages">
+      <button class="pkg active" data-name="25 Diamonds" data-price="৳ 25"><strong>💎 25 Diamonds</strong><small>৳ 25 • Demo price</small></button>
+      <button class="pkg" data-name="50 Diamonds" data-price="৳ 45"><strong>💎 50 Diamonds</strong><small>৳ 45 • Demo price</small></button>
+      <button class="pkg" data-name="115 Diamonds" data-price="৳ 90"><strong>💎 115 Diamonds</strong><small>৳ 90 • Demo price</small></button>
+      <button class="pkg" data-name="240 Diamonds" data-price="৳ 180"><strong>💎 240 Diamonds</strong><small>৳ 180 • Demo price</small></button>
+    </div>
+  </section>
+  <section class="card">
+    <h2>🎮 অর্ডার তথ্য</h2>
+    <label for="uid">Free Fire Player UID</label>
+    <input id="uid" inputmode="numeric" placeholder="তোমার Player UID লিখো">
+    <label for="nickname">Player নাম (ঐচ্ছিক)</label>
+    <input id="nickname" placeholder="Player nickname">
+    <label for="payment">Payment method</label>
+    <select id="payment"><option value="bKash">bKash</option><option value="Nagad">Nagad</option><option value="Rocket">Rocket</option></select>
+    <button onclick="makeOrder()">অর্ডার তৈরি করো</button>
+  </section>
+  <section class="card" id="summary" style="display:none">
+    <h2>📦 তোমার অর্ডার</h2>
+    <div id="result"></div>
+    <p class="note">এটি শুধু ডেমো। অর্ডার কোথাও পাঠানো হচ্ছে না এবং কোনো ডায়মন্ড ডেলিভারি হচ্ছে না। আসল অর্ডারের জন্য নিরাপদ সার্ভার, পেমেন্ট যাচাই ও অনুমোদিত Supplier/API যুক্ত করতে হবে।</p>
+  </section>
+  <section class="card">
+    <h2>ℹ️ গুরুত্বপূর্ণ তথ্য</h2>
+    <p class="note">এখনকার দামগুলো নমুনা মাত্র, আসল বাজারদর নয়। এই প্রাথমিক ওয়েবসাইটে পেমেন্ট নেওয়া বা স্বয়ংক্রিয় ডায়মন্ড পাঠানোর ব্যবস্থা নেই। আগে সঠিক Supplier ও নিরাপদ অর্ডার ব্যবস্থা যুক্ত করতে হবে।</p>
+  </section>
+</main>
+<footer>© MP40 TOPUP • Starter demo</footer>
+<script>
+let selected={name:"25 Diamonds",price:"৳ 25"};
+document.querySelectorAll('.pkg').forEach(btn=>btn.addEventListener('click',()=>{
+ document.querySelectorAll('.pkg').forEach(x=>x.classList.remove('active'));
+ btn.classList.add('active');selected={name:btn.dataset.name,price:btn.dataset.price};
+}));
+function makeOrder(){
+ const uid=document.getElementById('uid').value.trim();
+ if(!uid){alert('আগে Player UID লিখো।');return;}
+ document.getElementById('summary').style.display='block';
+ const nick=document.getElementById('nickname').value.trim()||'দেওয়া হয়নি';
+ const pay=document.getElementById('payment').value;
+ document.getElementById('result').textContent=
+ 'Package: '+selected.name+'\nDemo price: '+selected.price+'\nPlayer UID: '+uid+'\nNickname: '+nick+'\nPayment method: '+pay+'\n\nডেমো অর্ডার তৈরি হয়েছে। এটি আসল অর্ডার নয়।';
+}
+</script>
+</body>
+</html>
